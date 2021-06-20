@@ -5,13 +5,13 @@ import com.ding.airlinewebservice.entity.Flight;
 import com.ding.airlinewebservice.repository.FlightRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 @Service
@@ -23,12 +23,11 @@ public class FlightServiceImpl implements FlightService{
     @Override
     public FlightDto find(Integer flightId) {
 
-        Optional<Flight> flightById = flightRepository.findById(flightId);
-        FlightDto flightDto = null;
-        if (flightById.isPresent()) {
-            flightDto = new FlightDto();
-            BeanUtils.copyProperties(flightById.get(),flightDto);
-        }
+        Flight flightById = flightRepository.findById(flightId).orElseThrow(() ->
+                new ResponseStatusException(HttpStatus.NOT_FOUND, "Flight not found") );
+        FlightDto flightDto = new FlightDto();
+        BeanUtils.copyProperties(flightById,flightDto);
+
         return flightDto;
     }
 
@@ -48,29 +47,25 @@ public class FlightServiceImpl implements FlightService{
 
     @Override
     public FlightDto update(FlightDto flightDto) {
-        Optional<Flight> flightById = flightRepository.findById(flightDto.getId());
-        if (flightById.isPresent()) {
-            Flight flight = new Flight();
-            BeanUtils.copyProperties(flightDto,flight);
+        Flight flightById = flightRepository.findById(flightDto.getId()).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Flight not found"));
 
-            flightRepository.save(flight);
+        Flight flight = new Flight();
+        BeanUtils.copyProperties(flightDto,flight);
 
-            BeanUtils.copyProperties(flight,flightDto);
+        flightRepository.save(flight);
 
-        } else {
+        BeanUtils.copyProperties(flight,flightDto);
 
-        }
         return flightDto;
     }
 
     @Override
     public void delete(Integer flightId) {
-        Optional<Flight> flightById = flightRepository.findById(flightId);
-        if (flightById.isPresent()) {
-            flightRepository.deleteById(flightId);
-        } else {
+        Flight flightById = flightRepository.findById(flightId).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Flight not found"));
 
-        }
+        flightRepository.deleteById(flightId);
     }
 
     @Override

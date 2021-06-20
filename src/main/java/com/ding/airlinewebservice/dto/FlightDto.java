@@ -1,16 +1,31 @@
 package com.ding.airlinewebservice.dto;
 
+import com.ding.airlinewebservice.validation.FlightMfdBy;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Positive;
 import java.time.LocalDate;
 import java.util.Objects;
 
 public class FlightDto {
 
     private Integer id;
+
+    @NotNull
     private String flightNumber;
+
+    @NotNull
+    @Positive(message = "Capacity cannot be negative")
     private Integer capacity;
+
+    @NotNull
+    @FlightMfdBy
     private String mfdBy;
+
+    @NotNull
+    @Past(message = "Current or Future date is not allowed")
     @JsonFormat(pattern = "yyyy/MM/dd")
     private LocalDate mfdOn;
 

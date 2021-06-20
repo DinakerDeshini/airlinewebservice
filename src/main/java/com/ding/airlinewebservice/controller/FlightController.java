@@ -4,19 +4,23 @@ import com.ding.airlinewebservice.dto.FlightDto;
 import com.ding.airlinewebservice.entity.Flight;
 import com.ding.airlinewebservice.service.FlightService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Positive;
 import java.util.List;
 
 
 @RestController
+@Validated
 public class FlightController {
 
     @Autowired
     FlightService flightService;
 
     @GetMapping(path = "/flight/getinfo/{id}")
-    public FlightDto getFlightInfo(@PathVariable(name = "id") Integer flightId) {
+    public FlightDto getFlightInfo(@PathVariable(name = "id") @Positive Integer flightId) {
         return flightService.find(flightId);
     }
 
@@ -31,7 +35,7 @@ public class FlightController {
     }
 
     @PostMapping(path = "/flight")
-    public FlightDto createFlightInfo(@RequestBody FlightDto flightDto) {
+    public FlightDto createFlightInfo(@RequestBody @Valid FlightDto flightDto) {
 
         return flightService.saveFlight(flightDto);
     }
