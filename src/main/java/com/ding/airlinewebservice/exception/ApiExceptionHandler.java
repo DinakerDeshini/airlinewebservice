@@ -1,5 +1,6 @@
 package com.ding.airlinewebservice.exception;
 
+import com.sun.jmx.snmp.ThreadContext;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,7 +35,8 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         HttpServletRequest req = ((ServletWebRequest)request).getRequest();
 
         ApiErrorResponse apiErrorResponse = ApiErrorResponseHandler.getInstance()
-                .withErrorId("Airlines - " + LocalDateTime.now(ZoneOffset.UTC))
+                //.withErrorId("Airlines - " + LocalDateTime.now(ZoneOffset.UTC))
+                .withErrorId("Airlines - "+ThreadContext.get("requestId"))
                 .withStatus(status.value())
                 .withMessage(ex.getMessage())
                 .withErrors(errors)
@@ -50,7 +52,8 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         List<String> errors = Arrays.asList(ex.getReason());
 
         ApiErrorResponse apiErrorResponse = ApiErrorResponseHandler.getInstance()
-                .withErrorId("Airlines - " + LocalDateTime.now(ZoneOffset.UTC))
+                //.withErrorId("Airlines - " + LocalDateTime.now(ZoneOffset.UTC))
+                .withErrorId("Airlines - "+ThreadContext.get("requestId"))
                 .withStatus(ex.getStatus().value())
                 .withMessage(ex.getMessage())
                 .withErrors(errors)
@@ -69,7 +72,8 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         }
 
         ApiErrorResponse apiErrorResponse = ApiErrorResponseHandler.getInstance()
-                .withErrorId("Airlines - " + LocalDateTime.now(ZoneOffset.UTC))
+                //.withErrorId("Airlines - " + LocalDateTime.now(ZoneOffset.UTC))
+                .withErrorId("Airlines - "+ThreadContext.get("requestId"))
                 .withStatus(HttpStatus.BAD_REQUEST.value())
                 .withMessage(ex.getMessage())
                 .withErrors(errors)
@@ -85,7 +89,8 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         List<String> errors = Arrays.asList(ex.getMessage());
 
         ApiErrorResponse apiErrorResponse = ApiErrorResponseHandler.getInstance()
-                .withErrorId("Airlines - " + LocalDateTime.now(ZoneOffset.UTC))
+                //.withErrorId("Airlines - " + LocalDateTime.now(ZoneOffset.UTC))
+                .withErrorId("Airlines - "+ThreadContext.get("requestId"))
                 .withStatus(HttpStatus.INTERNAL_SERVER_ERROR.value())
                 .withMessage(ex.getMessage())
                 .withErrors(errors)

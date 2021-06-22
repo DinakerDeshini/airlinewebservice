@@ -8,3 +8,9 @@ spring:
     username: root
     password: root
 
+logging:
+  level:
+    root: info
+    com.ding.airlinewebservice: debug
+
+# ALL < trace < debug < info < warn < error < fatal

@@ -3,6 +3,8 @@ package com.ding.airlinewebservice.controller;
 import com.ding.airlinewebservice.dto.FlightDto;
 import com.ding.airlinewebservice.entity.Flight;
 import com.ding.airlinewebservice.service.FlightService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -16,11 +18,14 @@ import java.util.List;
 @Validated
 public class FlightController {
 
+    private static final Logger logger = LogManager.getLogger(FlightController.class);
+
     @Autowired
     FlightService flightService;
 
     @GetMapping(path = "/flight/getinfo/{id}")
     public FlightDto getFlightInfo(@PathVariable(name = "id") @Positive Integer flightId) {
+
         return flightService.find(flightId);
     }
 
