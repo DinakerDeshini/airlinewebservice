@@ -14,3 +14,16 @@ logging:
     com.ding.airlinewebservice: debug
 
 # ALL < trace < debug < info < warn < error < fatal
+
+#Disabling /v3/api-docs endpoint
+#springdoc.api-docs.enabled: false
+
+springdoc:
+  packages-to-scan:
+    - com.ding.airlinewebservice
+  swagger-ui:
+    path: /airlinewebservice/swagger-ui.html
+  api-docs:
+    path: /v3/flight-api-docs
+
+

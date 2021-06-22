@@ -2,6 +2,7 @@ package com.ding.airlinewebservice.dto;
 
 import com.ding.airlinewebservice.validation.FlightMfdBy;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.hateoas.RepresentationModel;
 
 import javax.validation.constraints.NotNull;
@@ -10,22 +11,27 @@ import javax.validation.constraints.Positive;
 import java.time.LocalDate;
 import java.util.Objects;
 
+@Schema(name = "Flight Object", description = "Model object of Flight")
 public class FlightDto extends RepresentationModel<FlightDto> {
 
     private Integer id;
 
     @NotNull
+    @Schema(name = "flightNumber", description = "Flight Number of Flight Model Object")
     private String flightNumber;
 
     @NotNull
+    @Schema(name = "capacity", description = "Flight seating capacity of Flight Model Object")
     @Positive(message = "Capacity cannot be negative")
     private Integer capacity;
 
     @NotNull
+    @Schema(name = "mfdBy", description = "Flight Manufacturer of Flight Model Object")
     @FlightMfdBy
     private String mfdBy;
 
     @NotNull
+    @Schema(name = "mfdOn", description = "Flight Manufactured date of Flight Model Object")
     @Past(message = "Current or Future date is not allowed")
     @JsonFormat(pattern = "yyyy/MM/dd")
     private LocalDate mfdOn;
