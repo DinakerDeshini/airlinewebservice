@@ -2,6 +2,7 @@ package com.ding.airlinewebservice.dto;
 
 import com.ding.airlinewebservice.validation.FlightMfdBy;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.hateoas.RepresentationModel;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
@@ -9,7 +10,7 @@ import javax.validation.constraints.Positive;
 import java.time.LocalDate;
 import java.util.Objects;
 
-public class FlightDto {
+public class FlightDto extends RepresentationModel<FlightDto> {
 
     private Integer id;
 
